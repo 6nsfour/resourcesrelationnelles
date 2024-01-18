@@ -1,5 +1,3 @@
-
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,16 +6,113 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model User {
-  id        String @id @default(uuid())
-  lastname  String
-  firstname String
-  email     String @unique
-  password  String
+  id        Int         @id @default(autoincrement())
+  firstname       String
+  lastname    String
+  email     String
+  password       String
+  role      Role        @relation(fields: [role_id], references: [id])
+  role_id   Int @default(1)
+  resource  Resource[]
+  Favorite  Favorite[]
+  toComment toComment[]
+}
+model Reach {
+  id       Int        @id @default(autoincrement())
+  value    String
+  resource Resource[]
+}
+
+model Status {
+  id       Int        @id @default(autoincrement())
+  value    String
+  resource Resource[]
+}
+
+model Role {
+  id    Int    @id @default(autoincrement())
+  value String
+  user  User[]
+}
+
+model Comment {
+  id         Int         @id @default(autoincrement())
+  content    String
+  created_at DateTime
+  updated_at DateTime
+  toComment  toComment[]
+}
+
+model Type {
+  id       Int        @id
+  value    String
+  resource Resource[]
+}
+
+model Relation {
+  id             Int              @id @default(autoincrement())
+  value          String
+  RelationFilter RelationFilter[]
+}
+
+model Category {
+  id             Int              @id @default(autoincrement())
+  value          String
+  CategoryFilter CategoryFilter[]
 }
 
 
+model Resource {
+  id             Int              @id @default(autoincrement())
+  content        String
+  title          String
+  updated_at     DateTime
+  created_at     DateTime
+  file           String
+  type_id        Int
+  status_id      Int
+  reach_id       Int
+  user_id        Int
+  type           Type             @relation(fields: [type_id], references: [id])
+  status         Status           @relation(fields: [status_id], references: [id])
+  reach          Reach            @relation(fields: [reach_id], references: [id])
+  user           User             @relation(fields: [user_id], references: [id])
+  CategoryFilter CategoryFilter[]
+  RelationFilter RelationFilter[]
+  Favorite       Favorite[]
+  toComment      toComment[]
+}
 
+model CategoryFilter {
+  id          Int      @id @default(autoincrement())
+  resource_id Int
+  category_id Int
+  resource    Resource @relation(fields: [resource_id], references: [id])
+  category    Category @relation(fields: [category_id], references: [id])
+}
 
+model RelationFilter {
+  id          Int      @id @default(autoincrement())
+  relation_id Int
+  resource_id Int
+  resource    Resource @relation(fields: [resource_id], references: [id])
+  relation    Relation @relation(fields: [relation_id], references: [id])
+}
 
+model Favorite {
+  resource_id Int      @id @default(autoincrement())
+  user_id     Int
+  resource    Resource @relation(fields: [resource_id], references: [id])
+  user        User     @relation(fields: [user_id], references: [id])
+}
+
+model toComment {
+  id  Int      @id @default(autoincrement())
+  resource_id Int
+  user_id     Int
+  comment_id Int
+  comment     Comment  @relation(fields: [comment_id], references: [id])
+  resource    Resource @relation(fields: [resource_id], references: [id])
+  user        User     @relation(fields: [user_id], references: [id])
+}
