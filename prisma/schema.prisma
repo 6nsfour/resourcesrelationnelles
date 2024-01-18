@@ -10,7 +10,7 @@ model User {
   id        String         @id @default(uuid())
   firstname       String
   lastname    String
-  email     String
+  email     String @unique
   password       String
   role      Role        @relation(fields: [role_id], references: [id])
   role_id   Int @default(1)
@@ -23,9 +23,9 @@ model Resource {
   id             Int              @id @default(autoincrement())
   content        String
   title          String
-  updated_at     DateTime
-  created_at     DateTime
-  file           String
+  updated_at     DateTime @default(now())
+  created_at     DateTime @default(now())
+  file           Bytes?
   type_id        Int
   status_id      Int
   reach_id       Int
@@ -61,13 +61,13 @@ model Role {
 model Comment {
   id         Int         @id @default(autoincrement())
   content    String
-  created_at DateTime
-  updated_at DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
   toComment  toComment[]
 }
 
 model Type {
-  id       Int        @id
+  id       Int        @id @default(autoincrement())
   value    String
   resource Resource[]
 }
