@@ -7,6 +7,14 @@ const prisma = new PrismaClient();
 const usersRouter = express.Router();
 const saltRounds = 12;
 
+interface CreateUserRequest {
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
+    role: number;
+}
+
 usersRouter.get('/', async (req: Request, res: Response) => {
     try {
         const users = await prisma.user.findMany();
@@ -37,29 +45,43 @@ usersRouter.get('/:id', async (req: Request, res: Response)=> {
 });
 
 usersRouter.post('/', async (req: Request, res: Response) => {
-    const { firstname, lastname, email, password } = req.body;
-
-    if (!firstname || !lastname || !email || !password) {
-        return res.status(400).json({ error: 'Missing fields' });
-    }
+    const body: CreateUserRequest = req.body;
 
     try {
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        const newUser = await prisma.user.create({
+        let roleId;
+        if (body.role) {
+            const existingRole = await prisma.role.findUnique({
+                where: { id: body.role },
+            });
+
+            if (!existingRole) {
+                return res.status(404).json({ error: 'Role not found' });
+            }
+            roleId = existingRole.id;
+        } else {
+            roleId = 1;
+        }
+
+        const hashedPassword = await bcrypt.hash(body.password, saltRounds);
+        await prisma.user.create({
             data: {
-                firstname,
-                lastname,
-                email,
+                firstname: body.firstname,
+                lastname: body.lastname,
+                email: body.email,
                 password: hashedPassword,
+                role: {
+                    connect: { id: roleId },
+                },
             },
         });
-        const { password: _, ...userWithoutPassword } = newUser;
-        res.status(201).json(userWithoutPassword);
+
+        res.status(201).json({ message: 'User successfully created' });
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 usersRouter.delete('/:id', async (req: Request, res: Response) => {
     const id = req.params.id;
@@ -86,9 +108,17 @@ usersRouter.delete('/:id', async (req: Request, res: Response) => {
 
 usersRouter.put('/:id', async (req: Request, res: Response) => {
     const id = req.params.id;
-    const { firstname, lastname, email, password } = req.body;
+    const { firstname, lastname, email, password, role } = req.body;
+
+    const existingRole = await prisma.role.findUnique({
+        where: { id: role },
+    });
 
     try {
+        if (!existingRole) {
+            return res.status(404).json({ error: 'Role not found' });
+        }
+
         let hashedPassword = password;
 
         if (password) {
@@ -101,7 +131,10 @@ usersRouter.put('/:id', async (req: Request, res: Response) => {
                 firstname,
                 lastname,
                 email,
-                ...(password && { password: hashedPassword })
+                ...(password && { password: hashedPassword }),
+                role: {
+                    connect: { id: existingRole.id },
+                },
             },
         });
 
