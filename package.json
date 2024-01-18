@@ -12,6 +12,9 @@
   },
   "author": "",
   "license": "ISC",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
@@ -35,3 +38,4 @@
     "uuid": "^9.0.1"
   }
 }
+
