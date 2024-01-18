@@ -84,4 +84,33 @@ usersRouter.delete('/:id', async (req: Request, res: Response) => {
     }
 });
 
+usersRouter.put('/:id', async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const { firstname, lastname, email, password } = req.body;
+
+    try {
+        let hashedPassword = password;
+
+        if (password) {
+            hashedPassword = await bcrypt.hash(password, saltRounds);
+        }
+
+        const updatedUser = await prisma.user.update({
+            where: { id },
+            data: {
+                firstname,
+                lastname,
+                email,
+                ...(password && { password: hashedPassword })
+            },
+        });
+
+        const { password: _, ...userWithoutPassword } = updatedUser;
+        res.status(200).json(userWithoutPassword);
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 export default usersRouter;
