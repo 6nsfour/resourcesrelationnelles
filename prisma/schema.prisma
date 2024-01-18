@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model User {
-  id        Int         @id @default(autoincrement())
+  id        String         @id @default(uuid())
   firstname       String
   lastname    String
   email     String
@@ -18,6 +18,28 @@ model User {
   Favorite  Favorite[]
   toComment toComment[]
 }
+
+model Resource {
+  id             Int              @id @default(autoincrement())
+  content        String
+  title          String
+  updated_at     DateTime
+  created_at     DateTime
+  file           String
+  type_id        Int
+  status_id      Int
+  reach_id       Int
+  user_id        String
+  type           Type             @relation(fields: [type_id], references: [id])
+  status         Status           @relation(fields: [status_id], references: [id])
+  reach          Reach            @relation(fields: [reach_id], references: [id])
+  user           User             @relation(fields: [user_id], references: [id])
+  CategoryFilter CategoryFilter[]
+  RelationFilter RelationFilter[]
+  Favorite       Favorite[]
+  toComment      toComment[]
+}
+
 model Reach {
   id       Int        @id @default(autoincrement())
   value    String
@@ -62,28 +84,6 @@ model Category {
   CategoryFilter CategoryFilter[]
 }
 
-
-model Resource {
-  id             Int              @id @default(autoincrement())
-  content        String
-  title          String
-  updated_at     DateTime
-  created_at     DateTime
-  file           String
-  type_id        Int
-  status_id      Int
-  reach_id       Int
-  user_id        Int
-  type           Type             @relation(fields: [type_id], references: [id])
-  status         Status           @relation(fields: [status_id], references: [id])
-  reach          Reach            @relation(fields: [reach_id], references: [id])
-  user           User             @relation(fields: [user_id], references: [id])
-  CategoryFilter CategoryFilter[]
-  RelationFilter RelationFilter[]
-  Favorite       Favorite[]
-  toComment      toComment[]
-}
-
 model CategoryFilter {
   id          Int      @id @default(autoincrement())
   resource_id Int
@@ -102,7 +102,7 @@ model RelationFilter {
 
 model Favorite {
   resource_id Int      @id @default(autoincrement())
-  user_id     Int
+  user_id     String
   resource    Resource @relation(fields: [resource_id], references: [id])
   user        User     @relation(fields: [user_id], references: [id])
 }
@@ -110,7 +110,7 @@ model Favorite {
 model toComment {
   id  Int      @id @default(autoincrement())
   resource_id Int
-  user_id     Int
+  user_id     String
   comment_id Int
   comment     Comment  @relation(fields: [comment_id], references: [id])
   resource    Resource @relation(fields: [resource_id], references: [id])
