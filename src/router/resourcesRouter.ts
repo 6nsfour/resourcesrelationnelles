@@ -1,22 +1,12 @@
 import express, { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { CreateResourcesDTO } from "../dto/ResourceDTO";
+import ResourceRepository from "../repository/ResourceRepository";
 
-interface CreateResourceDTO {
-    content: string;
-    title: string;
-    status: number;
-    user: string;
-    reach: number;
-    type: number;
-    file?: Blob;
-}
-
-const prisma = new PrismaClient();
 const resourcesRouter = express.Router();
 
 resourcesRouter.get('/', async (req: Request, res: Response) => {
     try {
-        const resources = await prisma.resource.findMany();
+        const resources = await ResourceRepository.findAll();
         res.json(resources);
     } catch(error) {
         console.error('error fetching all users', error);
@@ -24,64 +14,38 @@ resourcesRouter.get('/', async (req: Request, res: Response) => {
 });
 
 resourcesRouter.get('/:id', async (req: Request, res: Response) => {
-    try{
+    try {
         const id = +req.params.id;
-        const resource = await prisma.resource.findUnique({
-            where: {id: id}
-        })
-        res.json(resource);
+        const resource = await ResourceRepository.findById(id);
+        res.status(200).json(resource);
     } catch (error) {
-        console.error(error);
+        console.error('error fetching specific resource', error);
         
     }
 })
 
 resourcesRouter.post('/', async (req: Request, res: Response) => {
-    const body: CreateResourceDTO = req.body;
-
-    try{        
-        const existingType = await prisma.type.findUnique({
-            where: { id: body.type },
-        });
-        const existingUser = await prisma.user.findUnique({
-            where: { id: body.user },
-        });
-        const existingStatus = await prisma.status.findUnique({
-            where: { id: body.status },
-        });
-        const existingReach = await prisma.role.findUnique({
-            where: { id: body.reach },
-        });
-
-
-        await prisma.resource.create({
-            data: {
-                content: body.content,
-                title: body.title,
-                type: {
-                    connect: { id: existingType?.id},
-                },
-                status: {
-                    connect: { id: existingStatus?.id }
-                },
-                reach: {
-                    connect: { id: existingReach?.id}
-                },
-                user: {
-                    connect: { id: existingUser?.id}
-                }
-            }
-        });
-        res.status(201).json({ message: 'Resource successfully created' });
+    const body: CreateResourcesDTO = req.body;
+    try{
+        const resource = await ResourceRepository.create(body);
+        res.status(201).json({ message: 'Resource successfully created', resource });
     } catch (error) {
-        console.error('Error creating user:', error);
+        console.error('error creating resource:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 // resourcesRouter.patch();
 
-// resourcesRouter.delete();
+resourcesRouter.delete('/:id', async (req: Request, res: Response) => {
+    const id = +req.params.id;
+    try {
+        await ResourceRepository.delete(id);
+        res.status(204);
+    } catch(error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 export default resourcesRouter;
 
