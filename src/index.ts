@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import usersRouter from './router/usersRouter';
+import resourcesRouter from './router/resourcesRouter';
 
 const app = express();
 const PORT = 8080;
@@ -13,6 +14,7 @@ app.use(cors({
   credentials: true,
 }));
 app.use('/api/users', usersRouter);
+app.use('/api/resources', resourcesRouter);
 
 app.listen(
     PORT,
