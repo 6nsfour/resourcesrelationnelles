@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
 import { CreateResourceDTO, UpdateResourceDTO } from "../dto/ResourceDTO";
 import ResourceRepository from "../repository/ResourceRepository";
-import { error } from "console";
 
 export async function getAll(req: Request, res: Response): Promise<void> {
-    //#TODO check that only admin can. faire les users a la fin
     try {
         const resources = await ResourceRepository.findAll();
         res.json(resources);
@@ -15,7 +13,6 @@ export async function getAll(req: Request, res: Response): Promise<void> {
 }
 
 export async function getById(req: Request, res: Response): Promise<void> {
-    //#TODO check that only user can
     try {
         const id = +req.params.id;
         const resource = await ResourceRepository.findById(id);
@@ -27,16 +24,14 @@ export async function getById(req: Request, res: Response): Promise<void> {
 }
 
 export async function create(req: Request, res: Response): Promise<void> {
-    //#TODO check that the user is logged in and is a valid user
     const body: CreateResourceDTO = req.body;
 
     try {
         const resource = await ResourceRepository.add(body);
 
-        //#TODO Au lieu de return false return retourner le/les champs non existant.
         if('error' in resource) {
             console.error('those field(s) are missing :', resource.errors.toString());
-            res.status(500).json({error: 'mettre une bonne erreur ici'});
+            res.status(500).json(`${resource.errors.toString().toLocaleUpperCase()} doesn't exist`);
             return;
         }
 
@@ -48,7 +43,6 @@ export async function create(req: Request, res: Response): Promise<void> {
 }
 
 export async function update(req: Request, res: Response): Promise<void> {
-    //#TODO check that the user is logged in, is a valid user and resource belongs to him
     const id = +req.params.id;
 
     const body: UpdateResourceDTO = req.body;
@@ -63,7 +57,6 @@ export async function update(req: Request, res: Response): Promise<void> {
 }
 
 export async function remove(req: Request, res: Response): Promise<void> {
-    //#TODO check that the user is logged in, is a valid user and resource belongs to him
     const id = +req.params.id;
     try {
         await ResourceRepository.delete(id);

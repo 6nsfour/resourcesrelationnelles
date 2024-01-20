@@ -3,7 +3,6 @@ import { CreateUserDTO, UpdateUserDTO } from "../dto/UserDTO";
 import UserRepository from "../repository/UserRepository";
 
 export async function getAll(req: Request, res:Response): Promise<void> {
-
     try {
         const users = await UserRepository.findAll();
         res.json(users);
@@ -14,7 +13,6 @@ export async function getAll(req: Request, res:Response): Promise<void> {
 }
 
 export async function getById(req: Request, res:Response): Promise<void> {
-
     try {
         const id = req.params.id;
 
@@ -43,9 +41,11 @@ export async function create(req: Request, res: Response): Promise<void> {
             res.status(500).json({error: 'Role doesn\'t exist'})
         }
 
+        res.status(200).json(user);
+
     } catch (error) {
         console.error('error creating user', error);
-        res.status(500).json({error: 'internal server error'})
+        res.status(500).json(error)
     }
 }
 
@@ -68,10 +68,9 @@ export async function remove(req: Request, res: Response): Promise<void> {
 
     try {
         await UserRepository.delete(id);
-        res.status(204).end();
+        res.status(204).json(id);
     } catch(error) {
         console.error('error deleting user:', error);
-        res.status(500).json({error: 'error'});
-        
+        res.status(500).json(error);
     }
 }
