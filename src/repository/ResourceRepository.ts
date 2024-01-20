@@ -68,7 +68,12 @@ class ResourceRepository {
     }
 
     static async edit(id: number, updates: UpdateResourceDTO): Promise<Resource | null> {
-        return prisma.resource.update({ where: { id }, data: updates });
+        return prisma.resource.update({ where: { id }, data: {
+            title: updates.title,
+            content: updates.content,
+            file: updates.file,
+            updated_at: new Date()
+        } });
     }
 
     static async delete(id: number): Promise<Resource | null> {

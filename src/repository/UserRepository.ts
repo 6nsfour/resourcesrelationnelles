@@ -14,10 +14,10 @@ class UserRepository {
     }
 
     static async add(body: CreateUserDTO): Promise<User | boolean>  {
-
         const existingRole = await prisma.role.findUnique({
-            where: { id: body.role_id },
+            where: { id: 1 },
         });
+
 
         if(!existingRole) {
             return false;
@@ -32,18 +32,38 @@ class UserRepository {
                 email: body.email,
                 password: hashedPassword,
                 role: {
-                    connect: { id: existingRole?.id },
+                    //#TODO no role tant que l'admin ne valide pas le compte, id bidon pour l'instant
+                    connect: { id: 1 },
                 },
             },
         });
     }
 
+
+    //#TODO A Revoir
+    //#TODO nom prenom (accessible que pour l'user)
+    //#TODO Faire une pour le mdp et une pour l'email.
     static async edit(id: string, updates: UpdateUserDTO): Promise<User | null> {
-        return prisma.user.update({ where: { id }, data: updates });
+        return prisma.user.update({ where: { id }, data: {
+            firstname: updates.firstname,
+            lastname: updates.lastname,
+        } });
     }
 
     static async delete(id: string) {
-        return prisma.user.delete({where: {id} })
+        try {
+            await prisma.resource.deleteMany({
+                where: { user_id: id },
+            });
+
+            await prisma.user.delete({
+                where: { id },
+            });
+
+        } catch (error) {
+            console.error('error deleting user:', error);
+            return { error: 'internal Server Error' };
+        }
     }
 }
 
