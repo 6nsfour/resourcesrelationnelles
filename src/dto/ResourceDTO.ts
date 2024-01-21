@@ -1,9 +1,8 @@
-export interface CreateResourcesDTO {
-    content: string;
-    title: string;
-    status: number;
-    user: string;
-    reach: number;
-    type: number;
-    file?: Blob;
+import { Resource } from "@prisma/client";
+
+export interface CreateResourceDTO extends Omit<Resource, "id" | "created_at" | "updated_at"> {
+}
+
+//#TODO Verifier quelle champ sera modifiable ou non quand on update, cf. cahier des charges.
+export interface UpdateResourceDTO extends Omit<Partial<CreateResourceDTO>, "reach_id" | "status_id" | "user_id" | "type_id"> {
 }
