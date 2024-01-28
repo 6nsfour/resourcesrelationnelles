@@ -84,6 +84,14 @@ async function main() {
 
   const users = [
     {
+      id:"1",
+      firstname: "Marcus",
+      lastname: "Person",
+      email: "MarcusPerson@dayrep.com",
+      password: "b0OGX7NvcZ2UbzB",
+      role: 5,
+    },
+    {
       firstname: "Benoit",
       lastname: "Lebel",
       email: "BenoitLebel@dayrep.com",
@@ -200,18 +208,24 @@ async function main() {
   ];
 
   for (const user of users) {
-    const existingUser = await prisma.role.findFirst({
-      where: { value: user.email },
+    const existingUser = await prisma.user.findUnique({
+      where: { email: user.email },
     });
-
+  
     if (existingUser) {
-      await prisma.user.create({
-        data: {
-          ...user,
-          role: { connect: { id: user.role } },
-        },
+      // Si l'utilisateur existe, le supprimer
+      await prisma.user.delete({
+        where: { email: user.email },
       });
     }
+  
+    // Créer un nouvel utilisateur
+    await prisma.user.create({
+      data: {
+        ...user,
+        role: { connect: { id: user.role } },
+      },
+    });
   }
   
   const content =
