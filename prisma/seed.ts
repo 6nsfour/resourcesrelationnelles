@@ -1,12 +1,67 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 
-import usersRouter from "./../src/router/usersRouter";
+// import usersRouter from "./../src/router/usersRouter";
+import { json } from "express";
 const prisma = new PrismaClient();
 
-const saltRounds = 23;
-
 async function main() {
+
+  const status = [
+    {value:"not_verified"},
+    {value:"pending"},
+    {value:"verified"},
+  ]
+
+  for (const status_value of status) {
+    const existingStatus = await prisma.status.findFirst({
+      where: {value : status_value.value},
+    });
+
+    if (!existingStatus) {
+      await prisma.status.create({
+        data:status_value,
+      });
+    }
+  }
+
+  const reaches = [
+    {value:"private"},
+    {value:"public"},
+    {value:"restreined"}
+  ]
+
+  for (const reach of reaches){
+    const existingReach = await prisma.reach.findFirst({
+      where: {value : reach.value},
+    })
+
+    if (!existingReach) {
+      await prisma.reach.create({
+        data:reach,
+      })
+    }
+  }
+
+  const types = [
+    {value:"text"},
+    {value:"document"},
+    {value:"picture"},
+    {value:"video"},
+  ];
+
+  for (const type of types) {
+    const existingType = await prisma.type.findFirst({
+      where: { value : type.value},
+    });
+
+    if(!existingType) {
+      await prisma.type.create({
+        data:type,
+      });
+    }
+  }
+
   const roles = [
     { value: "not_connected" },
     { value: "connected" },
@@ -162,122 +217,128 @@ async function main() {
   const content =
   "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.";
 
+  const updated_at_date = new Date(1642680090542);
+  const created_at_date = new Date(1642730471341);
 
+  // var get_user_id = await prisma.user.findUnique({
+  //   where: {firstname : "Benoit"}
+  // })
+  // console.error(get_user_id.id)
   const resources = [
     {
       content: content,
       title: "lorem ipsum",
-      updated_at: "2022-12-27 08:26:49.219717",
-      created_at: "1999-10-11 08:26:49.219717",
-      file: "",
-      type: "1",
-      status: "1",
-      reach: "1",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: undefined,
+      type: 1,
+      status: 1,
+      reach: 1,
       user: "1",
     },
     {
       content: content,
       title: "lorem ipsum",
-      updated_at: "2022-12-27 08:26:49.219717",
-      created_at: "1999-10-11 08:26:49.219717",
-      file: "",
-      type: "1",
-      status: "1",
-      reach: "1",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: undefined,
+      type: 1,
+      status: 1,
+      reach: 1,
       user: "1",
     },
     {
       content: content,
       title: "lorem ipsum",
-      updated_at: "2022-12-27 08:26:49.219717",
-      created_at: "1999-10-11 08:26:49.219717",
-      file: "",
-      type: "1",
-      status: "1",
-      reach: "1",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: undefined,
+      type: 1,
+      status: 1,
+      reach: 1,
       user: "1",
     },
     {
       content: content,
       title: "lorem ipsum",
-      updated_at: "2022-12-27 08:26:49.219717",
-      created_at: "1999-10-11 08:26:49.219717",
-      file: "",
-      type: "1",
-      status: "1",
-      reach: "1",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: undefined,
+      type: 1,
+      status: 1,
+      reach: 1,
       user: "1",
     },
     {
       content: content,
       title: "lorem ipsum",
-      updated_at: "2022-12-27 08:26:49.219717",
-      created_at: "1999-10-11 08:26:49.219717",
-      file: "",
-      type: "1",
-      status: "1",
-      reach: "1",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: undefined,
+      type: 1,
+      status: 1,
+      reach: 1,
       user: "1",
     },
     {
       content: content,
       title: "lorem ipsum",
-      updated_at: "2022-12-27 08:26:49.219717",
-      created_at: "1999-10-11 08:26:49.219717",
-      file: "",
-      type: "1",
-      status: "1",
-      reach: "1",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: undefined,
+      type: 1,
+      status: 1,
+      reach: 1,
       user: "1",
     },
     {
       content: content,
       title: "lorem ipsum",
-      updated_at: "2022-12-27 08:26:49.219717",
-      created_at: "1999-10-11 08:26:49.219717",
-      file: "",
-      type: "1",
-      status: "1",
-      reach: "1",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: undefined,
+      type: 1,
+      status: 1,
+      reach: 1,
       user: "1",
     },
     {
       content: content,
       title: "lorem ipsum",
-      updated_at: "2022-12-27 08:26:49.219717",
-      created_at: "1999-10-11 08:26:49.219717",
-      file: "",
-      type: "1",
-      status: "1",
-      reach: "1",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: undefined,
+      type: 1,
+      status: 1,
+      reach: 1,
       user: "1",
     },
     {
       content: content,
       title: "lorem ipsum",
-      updated_at: "2022-12-27 08:26:49.219717",
-      created_at: "1999-10-11 08:26:49.219717",
-      file: "",
-      type: "1",
-      status: "1",
-      reach: "1",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: undefined,
+      type: 1,
+      status: 1,
+      reach: 1,
       user: "1",
     },
     {
       content: content,
       title: "lorem ipsum",
-      updated_at: "2022-12-27 08:26:49.219717",
-      created_at: "1999-10-11 08:26:49.219717",
-      file: "",
-      type: "1",
-      status: "1",
-      reach: "1",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: undefined,
+      type: 1,
+      status: 1,
+      reach: 1,
       user: "1",
     },
   ];
 
   for (const resource of resources) {
-    await prisma.user.create({
+    await prisma.resource.create({
       data: {
         ...resource,
         type: { connect: { id: resource.type } },
