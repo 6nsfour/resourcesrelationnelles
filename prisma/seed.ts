@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-// import bcrypt from "bcrypt";
 
-// import usersRouter from "./../src/router/usersRouter";
+//ToDo : Relation, Category and Favorite
+
 import { json } from "express";
 const prisma = new PrismaClient();
 
@@ -208,17 +208,6 @@ async function main() {
   ];
 
   for (const user of users) {
-    const existingUser = await prisma.user.findUnique({
-      where: { email: user.email },
-    });
-  
-    if (existingUser) {
-      // Si l'utilisateur existe, le supprimer
-      await prisma.user.delete({
-        where: { email: user.email },
-      });
-    }
-  
     // Créer un nouvel utilisateur
     await prisma.user.create({
       data: {
@@ -362,6 +351,26 @@ async function main() {
       },
     });
   }
+
+  const Comments = [
+    {content: "First", },
+    {content: "J'adore !", },
+    {content: "Pas mal", },
+    {content: "Ceci est un commentaire", },
+    {content: "A quand ta prochaine ressource ?", },
+    {content: "Je lâche un pouce bleu", },
+    {content: "Pourquoi faire ?", },
+    {content: "Le colibri est le seul oiseau sachant voler en arrière", },
+  ]
+
+  for (const comment of Comments) {
+      await prisma.comment.create({
+        data: comment
+      });
+    }
+
+  
+
 }
 
 main()
