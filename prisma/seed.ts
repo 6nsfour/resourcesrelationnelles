@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-//ToDo : Relation, Category and Favorite
+//ToDo :Category and Favorite
 
 import { json } from "express";
 const prisma = new PrismaClient();
@@ -369,7 +369,19 @@ async function main() {
       });
     }
 
-  
+  const Relations = [
+    {value:"10-20 ans"},
+    {value:"20-30 ans"},
+    {value:"30-40 ans"},
+    {value:"40-50 ans"},
+    {value:"50-60 ans"},
+  ]
+
+  for (const relation of Relations) {
+    await prisma.relation.create({
+      data: relation
+    });
+  }
 
 }
 
