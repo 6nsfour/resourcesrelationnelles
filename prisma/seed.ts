@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
-//ToDo :Category and Favorite
+/*
+Reset la DB : npx prisma db push --force-reset
+push les fixtures : npx prisma db seed
+*/
 
 import { json } from "express";
 const prisma = new PrismaClient();
@@ -92,6 +95,7 @@ async function main() {
       role: 5,
     },
     {
+      id:"2",
       firstname: "Benoit",
       lastname: "Lebel",
       email: "BenoitLebel@dayrep.com",
@@ -99,6 +103,7 @@ async function main() {
       role: 5,
     },
     {
+      id:"3",
       firstname: "Thibaut",
       lastname: "Guay",
       email: "ThibautGuay@armyspy.com",
@@ -106,6 +111,7 @@ async function main() {
       role: 1,
     },
     {
+      id:"4",
       firstname: "Eugène",
       lastname: "Miron",
       email: "EugeneMiron@dayrep.com",
@@ -113,6 +119,7 @@ async function main() {
       role: 2,
     },
     {
+      id:"5",
       firstname: "Gerard",
       lastname: "Menvussa",
       email: "GerardMenvussa@gmail.com",
@@ -396,6 +403,24 @@ async function main() {
   for (const Category of Categories) {
     await prisma.category.create({
       data:Category
+    })
+  }
+
+  const favorites = [
+    {resource: 1, user: "1"},
+    {resource: 1, user: "2"},
+    {resource: 2, user: "3"},
+    {resource: 3, user: "1"},
+    {resource: 4, user: "4"},
+  ]
+
+  for (const favorite of favorites) {
+    await prisma.favorite.create({
+      data: {
+        ...favorite,
+        resource: { connect: {id: favorite.resource}},
+        user: {connect: {id: favorite.user}}
+      }
     })
   }
 
