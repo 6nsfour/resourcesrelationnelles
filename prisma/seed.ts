@@ -383,6 +383,22 @@ async function main() {
     });
   }
 
+  const Categories = [
+    {value:"Cuisine"},
+    {value:"Bien être"},
+    {value:"Sport"},
+    {value:"Voiture"},
+    {value:"Football"},
+    {value:"Astuces"},
+    {value:"Pétanque"},
+  ]
+
+  for (const Category of Categories) {
+    await prisma.category.create({
+      data:Category
+    })
+  }
+
 }
 
 main()
