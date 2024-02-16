@@ -5,7 +5,6 @@ Reset la DB : npx prisma db push --force-reset
 push les fixtures : npx prisma db seed
 */
 
-import { json } from "express";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -71,6 +70,7 @@ async function main() {
     { value: "moderator" },
     { value: "admin" },
     { value: "super_admin" },
+    { value: "pending_validation" },
   ];
 
   for (const role of roles) {
