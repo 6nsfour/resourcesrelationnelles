@@ -45,7 +45,7 @@ class ResourceRepository {
 
         if (errors.length > 0) {
             return { error: 'Some values are missing', errors };
-        };
+        }
 
         return prisma.resource.create({
             data: {
