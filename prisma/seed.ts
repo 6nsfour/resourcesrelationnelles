@@ -424,6 +424,61 @@ async function main() {
     })
   }
 
+  const categoryFilters = [
+    {resource_id: 1, category_id: 3},
+    {resource_id: 2, category_id: 7},
+    {resource_id: 3, category_id: 2},
+    {resource_id: 4, category_id: 1},
+    {resource_id: 5, category_id: 5},
+    {resource_id: 6, category_id: 4},
+    {resource_id: 7, category_id: 6},
+    {resource_id: 8, category_id: 2},
+    {resource_id: 9, category_id: 1},
+    {resource_id: 10, category_id: 6},
+  ]
+
+  for (const categoryFilter of categoryFilters) {
+    await prisma.categoryFilter.create({
+      data: categoryFilter
+    })
+  }
+
+  const relationFilters = [
+    {relation_id: 1, resource_id: 1},
+    {relation_id: 4, resource_id: 2},
+    {relation_id: 3, resource_id: 3},
+    {relation_id: 5, resource_id: 4},
+    {relation_id: 2, resource_id: 5},
+    {relation_id: 1, resource_id: 6},
+    {relation_id: 4, resource_id: 7},
+    {relation_id: 3, resource_id: 8},
+    {relation_id: 2, resource_id: 9},
+    {relation_id: 1, resource_id: 10},
+  ]
+
+  for (const relationFilter of relationFilters) {
+    await prisma.relationFilter.create({
+      data:relationFilter
+    })
+  }
+
+  const toComments = [
+    {resource_id:4, user_id:"3", comment_id:1},
+    {resource_id:3, user_id:"1", comment_id:2},
+    {resource_id:2, user_id:"4", comment_id:3},
+    {resource_id:6, user_id:"2", comment_id:4},
+    {resource_id:5, user_id:"4", comment_id:5},
+    {resource_id:10, user_id:"5", comment_id:6},
+    {resource_id:9, user_id:"1", comment_id:7},
+    {resource_id:7, user_id:"2", comment_id:8},
+  ]
+
+  for (const toComment of toComments) {
+    await prisma.toComment.create({
+      data:toComment
+    })
+  }
+
 }
 
 main()
