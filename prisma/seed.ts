@@ -30,7 +30,7 @@ async function main() {
   const reaches = [
     {value:"private"},
     {value:"public"},
-    {value:"restreined"}
+    {value:"restrained"}
   ]
 
   for (const reach of reaches){
@@ -230,10 +230,6 @@ async function main() {
   const updated_at_date = new Date(1642680090542);
   const created_at_date = new Date(1642730471341);
 
-  // var get_user_id = await prisma.user.findUnique({
-  //   where: {firstname : "Benoit"}
-  // })
-  // console.error(get_user_id.id)
   const resources = [
     {
       content: content,
