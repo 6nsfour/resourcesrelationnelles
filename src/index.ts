@@ -14,6 +14,7 @@ import FavoriteRouter from "./router/favorite.router";
 import ToCommentRouter from "./router/toComment.router";
 import CategoryFilterRouter from "./router/categoryFilter.router";
 import relationFilterRouter from "./router/relationFilter.router";
+import AuthRouter from './router/auth.router';
 
 const app = express();
 const PORT = 8080;
@@ -40,6 +41,7 @@ app.use('/api/favorite', FavoriteRouter);
 app.use('/api/toComment', ToCommentRouter);
 app.use('/api/categoryFilter', CategoryFilterRouter);
 app.use('/api/relationFilter', relationFilterRouter);
+app.use('/api/auth', AuthRouter);
 
 app.listen(
     PORT,

@@ -13,6 +13,10 @@ class UserRepository {
         return await prisma.user.findUnique({ where: { id } });
     }
 
+    static async findByEmail(email: string): Promise<User | null> {
+        return await prisma.user.findUnique({where: { email }});
+    }
+
     static async add(body: CreateUserDTO): Promise<User | boolean>  {
         const existingRole = await prisma.role.findUnique({
             where: { id: 1 },
@@ -32,7 +36,6 @@ class UserRepository {
                 email: body.email,
                 password: hashedPassword,
                 role: {
-                    //#TODO no role tant que l'admin ne valide pas le compte, id bidon pour l'instant
                     connect: { id: 1 },
                 },
             },
