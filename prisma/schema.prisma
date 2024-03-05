@@ -32,7 +32,7 @@ model Resource {
   reach_id       Int
   user_id        String
   CategoryFilter CategoryFilter[]
-  Favorite       Favorite?
+  Favorite       Favorite[] // Favorite?
   RelationFilter RelationFilter[]
   reach          Reach            @relation(fields: [reach_id], references: [id])
   status         Status           @relation(fields: [status_id], references: [id])
@@ -68,7 +68,7 @@ model Comment {
 }
 
 model Type {
-  id       Int        @id
+  id       Int        @id @default(autoincrement())
   value    String
   resource Resource[]
 }
@@ -108,6 +108,7 @@ model Favorite {
   resource    Resource @relation(fields: [resource_id], references: [id])
   @@id([user_id, resource_id])
 }
+
 
 model toComment {
   id          Int      @id @default(autoincrement())

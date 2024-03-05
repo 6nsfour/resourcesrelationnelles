@@ -1,4 +1,4 @@
-import {PrismaClient, Role, Status} from "@prisma/client";
+import {PrismaClient, Status} from "@prisma/client";
 import {CreateStatusDTO, UpdateStatusDTO} from "../dto/StatusDTO";
 import {CreateRoleDTO} from "../dto/RoleDTO";
 import RoleRepository from "./RoleRepository";
@@ -47,6 +47,8 @@ class StatusRepository{
         }
     }
 }
+
+
 
 export default StatusRepository
 

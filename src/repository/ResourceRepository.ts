@@ -14,7 +14,6 @@ class ResourceRepository {
     }
 
     static async add(body: CreateResourceDTO): Promise<Resource | { error: string, errors: string[] }> {
-
         const errors: string[] = [];
 
         const existingType = await prisma.type.findUnique({
@@ -47,25 +46,32 @@ class ResourceRepository {
             return { error: 'Some values are missing', errors };
         }
 
+        const now = new Date();
+
         return prisma.resource.create({
             data: {
                 content: body.content,
                 title: body.title,
                 type: {
-                    connect: { id: existingType?.id},
+                    connect: { id: existingType?.id },
                 },
                 status: {
                     connect: { id: existingStatus?.id }
                 },
                 reach: {
-                    connect: { id: existingReach?.id}
+                    connect: { id: existingReach?.id }
                 },
                 user: {
-                    connect: { id: existingUser?.id}
-                }
+                    connect: { id: existingUser?.id }
+                },
+
+                created_at: now,
+                updated_at: now,
+                file: 'a',
             }
         });
     }
+
 
     static async edit(id: number, updates: UpdateResourceDTO): Promise<Resource | null> {
         return prisma.resource.update({ where: { id }, data: {
