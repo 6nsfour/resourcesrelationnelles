@@ -102,11 +102,11 @@ model RelationFilter {
 }
 
 model Favorite {
-  id             Int              @id @default(autoincrement())
-  resource_id Int      
   user_id     String
+  resource_id Int
+  user        User @relation(fields: [user_id], references: [id])
   resource    Resource @relation(fields: [resource_id], references: [id])
-  user        User     @relation(fields: [user_id], references: [id])
+  @@id([user_id, resource_id])
 }
 
 model toComment {
