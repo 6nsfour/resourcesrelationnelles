@@ -8,15 +8,15 @@ datasource db {
 }
 
 model User {
-  id        String      @id @default(uuid())
-  firstname String
   lastname  String
-  email     String      @unique
+  firstname String
+  email     String
   password  String
-  role      Role        @relation(fields: [role_id], references: [id])
   role_id   Int         @default(1)
-  resource  Resource[]
+  id        String      @id @default(uuid())
   Favorite  Favorite[]
+  resource  Resource[]
+  role      Role        @relation(fields: [role_id], references: [id])
   toComment toComment[]
 }
 
@@ -24,20 +24,20 @@ model Resource {
   id             Int              @id @default(autoincrement())
   content        String
   title          String
-  updated_at     DateTime         @default(now())
-  created_at     DateTime         @default(now())
-  file           Bytes?
+  updated_at     DateTime
+  created_at     DateTime
+  file           String
   type_id        Int
   status_id      Int
   reach_id       Int
   user_id        String
-  type           Type             @relation(fields: [type_id], references: [id])
-  status         Status           @relation(fields: [status_id], references: [id])
-  reach          Reach            @relation(fields: [reach_id], references: [id])
-  user           User             @relation(fields: [user_id], references: [id])
   CategoryFilter CategoryFilter[]
+  Favorite       Favorite[] // Favorite?
   RelationFilter RelationFilter[]
-  Favorite       Favorite[]
+  reach          Reach            @relation(fields: [reach_id], references: [id])
+  status         Status           @relation(fields: [status_id], references: [id])
+  type           Type             @relation(fields: [type_id], references: [id])
+  user           User             @relation(fields: [user_id], references: [id])
   toComment      toComment[]
 }
 
@@ -55,15 +55,15 @@ model Status {
 
 model Role {
   id    Int    @id @default(autoincrement())
-  value String
+  value String @default("not_connected")
   user  User[]
 }
 
 model Comment {
   id         Int         @id @default(autoincrement())
   content    String
-  created_at DateTime    @default(now())
-  updated_at DateTime    @default(now())
+  created_at DateTime
+  updated_at DateTime
   toComment  toComment[]
 }
 
@@ -89,16 +89,16 @@ model CategoryFilter {
   id          Int      @id @default(autoincrement())
   resource_id Int
   category_id Int
-  resource    Resource @relation(fields: [resource_id], references: [id])
   category    Category @relation(fields: [category_id], references: [id])
+  resource    Resource @relation(fields: [resource_id], references: [id])
 }
 
 model RelationFilter {
   id          Int      @id @default(autoincrement())
   relation_id Int
   resource_id Int
-  resource    Resource @relation(fields: [resource_id], references: [id])
   relation    Relation @relation(fields: [relation_id], references: [id])
+  resource    Resource @relation(fields: [resource_id], references: [id])
 }
 
 model Favorite {
@@ -108,6 +108,7 @@ model Favorite {
   resource    Resource @relation(fields: [resource_id], references: [id])
   @@id([user_id, resource_id])
 }
+
 
 model toComment {
   id          Int      @id @default(autoincrement())

@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import {Role, User} from "@prisma/client";
 
 export interface CreateUserDTO extends Omit<User, "id" | "role_id" > {}
 
