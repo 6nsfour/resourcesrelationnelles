@@ -14,17 +14,20 @@ class UserRepository {
     }
 
     static async findByEmail(email: string): Promise<User | null> {
-        return await prisma.user.findUnique({where: { email }});
+        return prisma.user.findUnique({where: {email}});
     }
 
-    static async add(body: CreateUserDTO): Promise<User | boolean>  {
+    static async add(body: CreateUserDTO): Promise<User | boolean | string>  {
         const existingRole = await prisma.role.findUnique({
             where: { id: 1 },
         });
 
+        if (await UserRepository.findByEmail(body.email)) {
+            return "email_error";
+        }
 
         if(!existingRole) {
-            return false;
+            return "role_error";
         }
 
         const hashedPassword = await bcrypt.hash(body.password, 12);
