@@ -14,7 +14,7 @@ class UserRepository {
     }
 
     static async findByEmail(email: string): Promise<User | null> {
-        return prisma.user.findUnique({where: {email}});
+        return prisma.user.findFirst({where: {email}});
     }
 
     static async add(body: CreateUserDTO): Promise<User | boolean | string>  {
