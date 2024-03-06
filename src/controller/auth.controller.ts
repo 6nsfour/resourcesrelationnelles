@@ -41,10 +41,12 @@ export async function register(req: Request, res: Response): Promise<void> {
     try {
         const existingUser = await UserRepository.findByEmail(body.email)
         if (existingUser) {
-            res.status(409).json({ error: "email_error" });
+            res.status(200).json({ error: "email_error" });
         }
-        const user = await UserRepository.add(body);
-        res.status(200).json(body)
+        else {
+            const user = await UserRepository.add(body);
+            res.status(200).json(body)
+        }
 
     } catch (error) {
         console.error("Error during registration:", error);
