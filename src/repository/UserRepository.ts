@@ -13,14 +13,21 @@ class UserRepository {
         return await prisma.user.findUnique({ where: { id } });
     }
 
-    static async add(body: CreateUserDTO): Promise<User | boolean>  {
+    static async findByEmail(email: string): Promise<User | null> {
+        return prisma.user.findUnique({where: {email}});
+    }
+
+    static async add(body: CreateUserDTO): Promise<User | boolean | string>  {
         const existingRole = await prisma.role.findUnique({
             where: { id: 1 },
         });
 
+        if (await UserRepository.findByEmail(body.email)) {
+            return "email_error";
+        }
 
         if(!existingRole) {
-            return false;
+            return "role_error";
         }
 
         const hashedPassword = await bcrypt.hash(body.password, 12);
@@ -32,7 +39,6 @@ class UserRepository {
                 email: body.email,
                 password: hashedPassword,
                 role: {
-                    //#TODO no role tant que l'admin ne valide pas le compte, id bidon pour l'instant
                     connect: { id: 1 },
                 },
             },
