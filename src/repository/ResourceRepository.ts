@@ -6,7 +6,15 @@ const prisma = new PrismaClient();
 class ResourceRepository {
 
     static async findAll(): Promise<Resource[]> {
-        return prisma.resource.findMany();
+        return prisma.resource.findMany({
+            include: {
+                CategoryFilter: {
+                    include: {
+                        category: true
+                    }
+                }
+            }
+        });
     }
 
     static async findById(id: number): Promise<Resource | null> {

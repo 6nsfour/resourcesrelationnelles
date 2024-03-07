@@ -26,7 +26,7 @@ model Resource {
   title          String
   updated_at     DateTime
   created_at     DateTime
-  file           String
+  file           Bytes?
   type_id        Int
   status_id      Int
   reach_id       Int
