@@ -12,13 +12,20 @@ class ResourceRepository {
                     include: {
                         category: true
                     }
+                },
+                reach: true,
+                status: true,
+                RelationFilter: {
+                    include: {
+                        relation: true
+                    }
                 }
             }
         });
     }
 
     static async findById(id: number): Promise<Resource | null> {
-        return await prisma.resource.findUnique({ 
+        return prisma.resource.findUnique({ 
             where: { id },
             include: {
                 CategoryFilter: {
