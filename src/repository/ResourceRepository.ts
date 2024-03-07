@@ -46,7 +46,6 @@ class ResourceRepository {
 
     static async add(body: CreateResourceDTO): Promise<Resource | { error: string, errors: string[] }> {
         const errors: string[] = [];
-        console.log(body, "ici");
         
         const existingType = await prisma.type.findUnique({
             where: { id: body.type_id },
