@@ -75,7 +75,7 @@ class ResourceRepository {
 
                 created_at: now,
                 updated_at: now,
-                file: 'a',
+                file: null,
             }
         });
     }
