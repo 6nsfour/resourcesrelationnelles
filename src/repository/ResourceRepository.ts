@@ -18,7 +18,23 @@ class ResourceRepository {
     }
 
     static async findById(id: number): Promise<Resource | null> {
-        return await prisma.resource.findUnique({ where: { id } });
+        return await prisma.resource.findUnique({ 
+            where: { id },
+            include: {
+                CategoryFilter: {
+                    include: {
+                        category: true
+                    }
+                },
+                reach: true,
+                status: true,
+                RelationFilter: {
+                    include: {
+                        relation: true
+                    }
+                }
+            }
+        });
     }
 
     static async add(body: CreateResourceDTO): Promise<Resource | { error: string, errors: string[] }> {
