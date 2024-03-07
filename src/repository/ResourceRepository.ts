@@ -8,14 +8,14 @@ class ResourceRepository {
     static async findAll(): Promise<Resource[]> {
         return prisma.resource.findMany({
             include: {
-                CategoryFilter: {
+                resourceCategories: {
                     include: {
                         category: true
                     }
                 },
                 reach: true,
                 status: true,
-                RelationFilter: {
+                resourceRelations: {
                     include: {
                         relation: true
                     }
@@ -28,14 +28,14 @@ class ResourceRepository {
         return prisma.resource.findUnique({ 
             where: { id },
             include: {
-                CategoryFilter: {
+                resourceCategories: {
                     include: {
                         category: true
                     }
                 },
                 reach: true,
                 status: true,
-                RelationFilter: {
+                resourceRelations: {
                     include: {
                         relation: true
                     }
@@ -46,7 +46,7 @@ class ResourceRepository {
 
     static async add(body: CreateResourceDTO): Promise<Resource | { error: string, errors: string[] }> {
         const errors: string[] = [];
-
+        
         const existingType = await prisma.type.findUnique({
             where: { id: body.type_id },
         });
@@ -95,7 +95,20 @@ class ResourceRepository {
                 user: {
                     connect: { id: existingUser?.id }
                 },
-
+                resourceCategories: {
+                    create: body.categories.map(categoryId => ({
+                        category: {
+                            connect: { id: categoryId }
+                        }
+                    }))
+                },
+                resourceRelations: {
+                    create: body.relations.map(relationId => ({
+                        relation: {
+                            connect: { id: relationId }
+                        }
+                    }))
+                },
                 created_at: now,
                 updated_at: now,
                 file: null,
