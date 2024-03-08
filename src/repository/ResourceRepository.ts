@@ -122,14 +122,50 @@ class ResourceRepository {
             title: updates.title,
             content: updates.content,
             file: updates.file,
+            status_id: updates.status_id,
+            reach_id: updates.reach_id,
+            type_id: updates.type_id,
             updated_at: new Date()
         } });
     }
 
     static async delete(id: number): Promise<Resource | null> {
-        return prisma.resource.delete({ where: { id } });
-    }
+        const resource = await prisma.resource.findUnique({
+            where: { id },
+            include: {
+                resourceCategories: true,
+                resourceRelations: true,
+                Favorite: true,
+            },
+        });
+    
+        if (!resource) {
+            return null;
+        }
+    
+        await prisma.resourceCategory.deleteMany({
+            where: {
+                resource_id: id,
+            },
+        });
 
+        await prisma.favorite.deleteMany({
+            where: {
+                resource_id: id,
+            },
+        });
+    
+        await prisma.resourceRelation.deleteMany({
+            where: {
+                resource_id: id,
+            },
+        });
+    
+        await prisma.resource.delete({
+            where: { id },
+        });
+        return resource;
+    }
 }
 
 export default ResourceRepository

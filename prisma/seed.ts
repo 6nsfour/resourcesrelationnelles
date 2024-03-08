@@ -13,6 +13,7 @@ async function main() {
     {value:"not_verified"},
     {value:"pending"},
     {value:"verified"},
+    {value:"archived"},
   ]
 
   for (const status_value of status) {
@@ -46,10 +47,10 @@ async function main() {
   }
 
   const types = [
-    {value:"text"},
-    {value:"document"},
-    {value:"picture"},
-    {value:"video"},
+    {value:"Texte"},
+    {value:"Document"},
+    {value:"Image"},
+    {value:"Vidéo"},
   ];
 
   for (const type of types) {
@@ -66,11 +67,11 @@ async function main() {
 
   const roles = [
     { value: "not_connected" },
+    { value: "pending_validation" },
     { value: "connected" },
     { value: "moderator" },
     { value: "admin" },
     { value: "super_admin" },
-    { value: "pending_validation" },
   ];
 
   for (const role of roles) {
@@ -87,7 +88,6 @@ async function main() {
 
   const users = [
     {
-      id:"1",
       firstname: "Marcus",
       lastname: "Person",
       email: "MarcusPerson@dayrep.com",
@@ -95,7 +95,6 @@ async function main() {
       role: 5,
     },
     {
-      id:"2",
       firstname: "Benoit",
       lastname: "Lebel",
       email: "BenoitLebel@dayrep.com",
@@ -103,7 +102,6 @@ async function main() {
       role: 5,
     },
     {
-      id:"3",
       firstname: "Thibaut",
       lastname: "Guay",
       email: "ThibautGuay@armyspy.com",
@@ -111,7 +109,6 @@ async function main() {
       role: 1,
     },
     {
-      id:"4",
       firstname: "Eugène",
       lastname: "Miron",
       email: "EugeneMiron@dayrep.com",
@@ -119,7 +116,6 @@ async function main() {
       role: 2,
     },
     {
-      id:"5",
       firstname: "Gerard",
       lastname: "Menvussa",
       email: "GerardMenvussa@gmail.com",
@@ -204,6 +200,7 @@ async function main() {
       role: 2,
     },
     {
+      id: "1",
       firstname: "Brice",
       lastname: "Fremont",
       email: "BriceFremont@jourrapide.com",
@@ -221,154 +218,6 @@ async function main() {
         ...user,
         role: { connect: { id: user.role } },
       },
-    });
-  }
-
-  const content =
-      "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.";
-
-  const updated_at_date = new Date(1642680090542);
-  const created_at_date = new Date(1642730471341);
-
-  const resources = [
-    {
-      content: content,
-      title: "La taille du sexe d'un lion",
-      updated_at: updated_at_date,
-      created_at: created_at_date,
-      file: null,
-      type: 1,
-      status: 1,
-      reach: 1,
-      user: "1",
-    },
-    {
-      content: content,
-      title: "Doumbe ou Baki ??",
-      updated_at: updated_at_date,
-      created_at: created_at_date,
-      file: null,
-      type: 1,
-      status: 1,
-      reach: 1,
-      user: "1",
-    },
-    {
-      content: content,
-      title: "Comment ne pas se faire tromper par sa meuf",
-      updated_at: updated_at_date,
-      created_at: created_at_date,
-      file: null,
-      type: 1,
-      status: 1,
-      reach: 1,
-      user: "1",
-    },
-    {
-      content: content,
-      title: "Mais ou est donc Ornicar",
-      updated_at: updated_at_date,
-      created_at: created_at_date,
-      file: null,
-      type: 1,
-      status: 1,
-      reach: 1,
-      user: "1",
-    },
-    {
-      content: content,
-      title: "Je sais vraiment pas",
-      updated_at: updated_at_date,
-      created_at: created_at_date,
-      file: null,
-      type: 1,
-      status: 1,
-      reach: 1,
-      user: "1",
-    },
-    {
-      content: content,
-      title: "C'est vraiment po nice",
-      updated_at: updated_at_date,
-      created_at: created_at_date,
-      file: null,
-      type: 1,
-      status: 1,
-      reach: 1,
-      user: "1",
-    },
-    {
-      content: content,
-      title: "Les quebecois sont il vraiment sympa",
-      updated_at: updated_at_date,
-      created_at: created_at_date,
-      file: null,
-      type: 1,
-      status: 1,
-      reach: 1,
-      user: "1",
-    },
-    {
-      content: content,
-      title: "Que fait un quebecois quand sa meuf le trompe ?",
-      updated_at: updated_at_date,
-      created_at: created_at_date,
-      file: null,
-      type: 1,
-      status: 1,
-      reach: 1,
-      user: "1",
-    },
-    {
-      content: content,
-      title: "Que fait un quebecois quand tu le tues ?",
-      updated_at: updated_at_date,
-      created_at: created_at_date,
-      file: null,
-      type: 1,
-      status: 1,
-      reach: 1,
-      user: "1",
-    },
-    {
-      content: content,
-      title: "Que fait un quebecois quand tu le voles",
-      updated_at: updated_at_date,
-      created_at: created_at_date,
-      file: null,
-      type: 1,
-      status: 1,
-      reach: 1,
-      user: "1",
-    },
-  ];
-
-  for (const resource of resources) {
-    await prisma.resource.create({
-      data: {
-        ...resource,
-        type: { connect: { id: resource.type } },
-        status: { connect: { id: resource.status } },
-        reach: { connect: { id: resource.reach } },
-        user: { connect: { id: resource.user } },
-      },
-    });
-  }
-
-  const Comments = [
-    {content: "First", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
-    {content: "J'adore !", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
-    {content: "Pas mal", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
-    {content: "Ceci est un commentaire", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
-    {content: "A quand ta prochaine ressource ?", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
-    {content: "Je lâche un pouce bleu", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
-    {content: "Pourquoi faire ?", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
-    {content: "Le colibri est le seul oiseau sachant voler en arrière", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
-  ]
-
-  for (const comment of Comments) {
-    await prisma.comment.create({
-      data: comment
     });
   }
 
@@ -402,42 +251,212 @@ async function main() {
     })
   }
 
-  const favorites = [
-    {resource: 1, user: "1"},
-    {resource: 1, user: "2"},
-    {resource: 2, user: "3"},
-    {resource: 3, user: "1"},
-    {resource: 4, user: "4"},
-  ]
+  const content =
+      "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.";
 
-  for (const favorite of favorites) {
-    await prisma.favorite.create({
+  const updated_at_date = new Date(1642680090542);
+  const created_at_date = new Date(1642730471341);
+
+  const resources = [
+    {
+      content: content,
+      title: "Marill est il le meilleur pokemon ?",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: null,
+      type: 1,
+      status: 1,
+      reach: 1,
+      user: "1",
+      categories: [1,2,4],
+      relations: [1,3],
+    },
+    {
+      content: content,
+      title: "Doumbe ou Baki ??",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: null,
+      type: 1,
+      status: 1,
+      reach: 1,
+      user: "1",
+      categories: [1,2,4],
+      relations: [1,3],
+    },
+    {
+      content: content,
+      title: "Comment faire des bébés",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: null,
+      type: 1,
+      status: 1,
+      reach: 1,
+      user: "1",
+      categories: [1,2,4],
+      relations: [1,3],
+    },
+    {
+      content: content,
+      title: "Mais ou est donc Ornicar",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: null,
+      type: 1,
+      status: 1,
+      reach: 1,
+      user: "1",
+      categories: [1,2,4],
+      relations: [1,3],
+    },
+    {
+      content: content,
+      title: "Je sais vraiment po",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: null,
+      type: 1,
+      status: 1,
+      reach: 1,
+      user: "1",
+      categories: [1,2,4],
+      relations: [1,3],
+    },
+    {
+      content: content,
+      title: "C'est vraiment po nice",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: null,
+      type: 1,
+      status: 1,
+      reach: 1,
+      user: "1",
+      categories: [1,2,4],
+      relations: [1,3],
+    },
+    {
+      content: `C'est vraiment tres gentil d'ta pooooort`,
+      title: "Les quebecois sont il vraiment sympa",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: null,
+      type: 1,
+      status: 1,
+      reach: 1,
+      user: "1",
+      categories: [1,2,4],
+      relations: [1,3],
+    },
+    {
+      content: `tu veux tu pas que j'filme ???!`,
+      title: "Que fait un quebecois quand sa meuf le trompe ?",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: null,
+      type: 1,
+      status: 1,
+      reach: 1,
+      user: "1",
+      categories: [1,2,4],
+      relations: [1,3],
+    },
+    {
+      content: `Oh non ! mon chandaiiiillll`,
+      title: "Que fait un quebecois quand tu le tues ?",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: null,
+      type: 1,
+      status: 1,
+      reach: 1,
+      user: "1",
+      categories: [1,2,4],
+      relations: [1,3],
+    },
+    {
+      content: `Pas plus de mille dollars !`,
+      title: "Que fait un quebecois quand tu le voles",
+      updated_at: updated_at_date,
+      created_at: created_at_date,
+      file: null,
+      type: 1,
+      status: 1,
+      reach: 1,
+      user: "1",
+      categories: [1,2,4],
+      relations: [1,3],
+    },
+  ];
+
+  for (const resource of resources) {
+    const createdResource = await prisma.resource.create({
       data: {
-        ...favorite,
-        resource: { connect: {id: favorite.resource}},
-        user: {connect: {id: favorite.user}}
-      }
-    })
+        content: resource.content,
+        title: resource.title,
+        updated_at: resource.updated_at,
+        created_at: resource.created_at,
+        file: resource.file,
+        type: { connect: { id: resource.type } },
+        status: { connect: { id: resource.status } },
+        reach: { connect: { id: resource.reach } },
+        user: { connect: { id: resource.user } },
+        resourceCategories: {
+          create: resource.categories.map(categoryId => ({
+              category: {
+                  connect: { id: categoryId }
+              }
+          }))
+        },
+        resourceRelations: {
+          create: resource.relations.map(relationId => ({
+              relation: {
+                  connect: { id: relationId }
+              }
+          }))
+        },
+      },
+    });
   }
+  
 
-  const categoryFilters = [
-    {resource_id: 1, category_id: 3},
-    {resource_id: 2, category_id: 7},
-    {resource_id: 3, category_id: 2},
-    {resource_id: 4, category_id: 1},
-    {resource_id: 5, category_id: 5},
-    {resource_id: 6, category_id: 4},
-    {resource_id: 7, category_id: 6},
-    {resource_id: 8, category_id: 2},
-    {resource_id: 9, category_id: 1},
-    {resource_id: 10, category_id: 6},
+  const Comments = [
+    {content: "First", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
+    {content: "J'adore !", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
+    {content: "Pas mal", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
+    {content: "Ceci est un commentaire", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
+    {content: "A quand ta prochaine ressource ?", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
+    {content: "Je lâche un pouce bleu", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
+    {content: "Pourquoi faire ?", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
+    {content: "Le colibri est le seul oiseau sachant voler en arrière", created_at: new Date(1642680090542), updated_at: new Date(1642680090542)},
   ]
 
-  for (const categoryFilter of categoryFilters) {
-    await prisma.categoryFilter.create({
-      data: categoryFilter
-    })
+  for (const comment of Comments) {
+    await prisma.comment.create({
+      data: comment
+    });
   }
+
+
+
+  // const favorites = [
+  //   {resource: 1, user: "1"},
+  //   {resource: 1, user: "2"},
+  //   {resource: 2, user: "3"},
+  //   {resource: 3, user: "1"},
+  //   {resource: 4, user: "4"},
+  // ]
+
+  // for (const favorite of favorites) {
+  //   await prisma.favorite.create({
+  //     data: {
+  //       ...favorite,
+  //       resource: { connect: {id: favorite.resource}},
+  //       user: {connect: {id: favorite.user}}
+  //     }
+  //   })
+  // }
 
   const relationFilters = [
     {relation_id: 1, resource_id: 1},
@@ -452,28 +471,22 @@ async function main() {
     {relation_id: 1, resource_id: 10},
   ]
 
-  for (const relationFilter of relationFilters) {
-    await prisma.relationFilter.create({
-      data:relationFilter
-    })
-  }
+  // const toComments = [
+  //   {resource_id:4, user_id:"3", comment_id:1},
+  //   {resource_id:3, user_id:"1", comment_id:2},
+  //   {resource_id:2, user_id:"4", comment_id:3},
+  //   {resource_id:6, user_id:"2", comment_id:4},
+  //   {resource_id:5, user_id:"4", comment_id:5},
+  //   {resource_id:10, user_id:"5", comment_id:6},
+  //   {resource_id:9, user_id:"1", comment_id:7},
+  //   {resource_id:7, user_id:"2", comment_id:8},
+  // ]
 
-  const toComments = [
-    {resource_id:4, user_id:"3", comment_id:1},
-    {resource_id:3, user_id:"1", comment_id:2},
-    {resource_id:2, user_id:"4", comment_id:3},
-    {resource_id:6, user_id:"2", comment_id:4},
-    {resource_id:5, user_id:"4", comment_id:5},
-    {resource_id:10, user_id:"5", comment_id:6},
-    {resource_id:9, user_id:"1", comment_id:7},
-    {resource_id:7, user_id:"2", comment_id:8},
-  ]
-
-  for (const toComment of toComments) {
-    await prisma.toComment.create({
-      data:toComment
-    })
-  }
+  // for (const toComment of toComments) {
+  //   await prisma.toComment.create({
+  //     data:toComment
+  //   })
+  // }
 
 }
 
