@@ -1,0 +1,19 @@
+name: unitTest
+on: workflow_dispatch
+jobs: 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup unitTest
+      id : tu
+      run: | 
+        npm i
+        npm run test
+
+    - name : message
+      run : echo "tests succedded
+      if : steps.tu.outcom = 'success'
+    
+      
+    
