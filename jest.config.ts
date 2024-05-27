@@ -5,15 +5,11 @@ module.exports = {
     '^.+\\.ts$': 'ts-jest'
   },
   testMatch: [
-    '**/__tests__/**/*.ts',
+    '**/__tests__/*.steps.ts',
     '**/?(*.)+(spec|test).ts',
     '**/features/**/*.feature'
   ],
   moduleFileExtensions: ['ts', 'js'],
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.json'
-    }
-  },
+
   //setupFilesAfterEnv: ['./features/support/world.ts']
 };
