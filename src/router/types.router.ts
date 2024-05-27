@@ -1,5 +1,5 @@
-import express from "express";
-import * as TypeController from "../controller/type.controller";
+import express from 'express';
+import * as TypeController from '../controller/type.controller';
 
 const TypesRouter = express.Router();
 

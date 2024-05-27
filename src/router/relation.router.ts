@@ -1,5 +1,5 @@
-import express from "express";
-import * as RelationController from "../controller/relation.controller";
+import express from 'express';
+import * as RelationController from '../controller/relation.controller';
 
 const RelationRouter = express.Router();
 
