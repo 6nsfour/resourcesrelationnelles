@@ -1,5 +1,5 @@
-import express from "express";
-import * as ResourceController from "../controller/resources.controller"
+import express from 'express';
+import * as ResourceController from '../controller/resources.controller';
 
 const ResourcesRouter = express.Router();
 
@@ -14,4 +14,3 @@ ResourcesRouter.patch('/:id', ResourceController.update);
 ResourcesRouter.delete('/:id', ResourceController.remove);
 
 export default ResourcesRouter;
-
