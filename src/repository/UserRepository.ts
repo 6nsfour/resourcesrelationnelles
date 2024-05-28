@@ -1,6 +1,6 @@
 import { PrismaClient, User } from "@prisma/client";
 import { CreateUserDTO, UpdateUserDTO } from "../dto/UserDTO";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
