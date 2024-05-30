@@ -23,6 +23,6 @@ services:
     - "8080:8080"
     volumes:
       - ./src:/usr/src/app
-    command: ["npm install && npx prisma db push --force-reset && npx prisma db seed && npm run start"]
+    command: ["sh", "-c", "npm install && npx prisma db push --force-reset && npx prisma db seed && npm run start && npx prisma studio"]
 
 
